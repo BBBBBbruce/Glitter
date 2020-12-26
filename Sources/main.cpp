@@ -46,7 +46,7 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Dragon", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -78,12 +78,12 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    Shader ourShader("./Glitter/Shaders/model_loading.vert", "./Glitter/Shaders/model_loading.frag");
+    Shader ourShader("./Glitter/Shaders/model_loading.vert", "./Glitter/Shaders/model_loading_cook.frag");
     Shader lightCubeShader("./Glitter/Shaders/light_cube.vert", "./Glitter/Shaders/light_cube.frag");
 
     // load models
     // -----------
-    Model ourModel(std::string("./Glitter/resource/box.obj").c_str());
+    Model ourModel(std::string("./Glitter/resource/dragon2.obj").c_str());
     Model lightModel(std::string("./Glitter/resource/box.obj").c_str());
 
    
