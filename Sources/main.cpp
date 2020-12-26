@@ -78,12 +78,13 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    Shader ourShader("./Glitter/Shaders/model_loading.vert", "./Glitter/Shaders/model_loading_cook.frag");
+    Shader ourShader("./Glitter/Shaders/model_loading.vert", "./Glitter/Shaders/model_loading_cook_different_illu.frag");
     Shader lightCubeShader("./Glitter/Shaders/light_cube.vert", "./Glitter/Shaders/light_cube.frag");
 
     // load models
     // -----------
-    Model ourModel(std::string("./Glitter/resource/dragon2.obj").c_str());
+    //Model ourModel(std::string("./Glitter/resource/dragon2.obj").c_str());
+    Model ourModel(std::string("./Glitter/resource/box.obj").c_str());
     Model lightModel(std::string("./Glitter/resource/box.obj").c_str());
 
    

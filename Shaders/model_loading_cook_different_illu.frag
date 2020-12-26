@@ -35,6 +35,9 @@ uniform vec3 viewPos;
 vec3 CookTorrance(vec3 materialDiffuseColor,vec3 materialSpecularColor,	vec3 normal, vec3 lightDir,	vec3 viewDir, Light light)
 {
 	float NdotL = max(0, dot(normal, lightDir));
+	float distance    = length(light.position - FragPos);
+    float attenuation = 1.0 / (distance * distance);
+    vec3 radiance     = light.position * attenuation;     
 	float Rs = 0.0;
 	vec3 H = normalize(lightDir + viewDir);
 	float NdotH = max(0, dot(normal, H));
@@ -42,9 +45,12 @@ vec3 CookTorrance(vec3 materialDiffuseColor,vec3 materialSpecularColor,	vec3 nor
 	float VdotH = max(0, dot(lightDir, H));
 	float alpha_sq = texture(texture_roughness1, TexCoords).x * texture(texture_roughness1, TexCoords).x;
 
+	// Fresnel reflectance
+	//float F = pow(1.0 - VdotH, 5.0);
+	float F = f0+(1.-f0)*pow(1.-VdotH,5.0);
+
 	if (NdotL > 0) 
 	{
-		float F = f0+(1.-f0)*pow(1.-VdotH,5.0);
 
 		float D = alpha_sq/(PI*pow(NdotH*NdotH*(alpha_sq-1.)+1.,2.0));
 
@@ -53,7 +59,15 @@ vec3 CookTorrance(vec3 materialDiffuseColor,vec3 materialSpecularColor,	vec3 nor
 		float G =  gl*gv;
 
 		Rs = (F * D * G) / (PI * NdotL * NdotV);
+
+		
+		//return (kD * materialDiffuseColor / PI + Rs) * radiance * NdotL; 
 	}
+
+	float kS = F;
+    float kD = 1. - kS;
+
+	//return (kD * materialDiffuseColor / PI + Rs) * radiance * NdotL; 
 	return materialDiffuseColor * light.diffuse * NdotL + light.specular * materialSpecularColor * NdotL * (k + Rs * (1.0 - k));
 }
 
