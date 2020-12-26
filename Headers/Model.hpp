@@ -5,13 +5,14 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <\Y4\what\Glitter\Headers\Mesh.hpp>
-#include <\Y4\what\Glitter\Headers\Shader.hpp>
+#include <../Headers/Mesh.hpp>
+#include <../Headers/Shader.hpp>
 
 #include <string>
 #include <fstream>
@@ -161,7 +162,7 @@ private:
         std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
         textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
         // 4. height maps
-        std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+        std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "texture_roughness");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
         // return a mesh object created from the extracted mesh data
@@ -191,6 +192,7 @@ private:
             if (!skip)
             {   // if texture hasn't been loaded already, load it
                 Texture texture;
+
                 texture.id = TextureFromFile(str.C_Str(), this->directory);
                 texture.type = typeName;
                 texture.path = str.C_Str();
@@ -198,6 +200,9 @@ private:
                 textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
             }
         }
+       // for (int i = 0; i < textures.size(); i++)
+       //     cout << "texturesID: " << textures[i].id << " textureType: " << textures[i].type << " texturesPath: " << textures[i].path << endl;
+
         return textures;
     }
 };
@@ -207,6 +212,8 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
 {
     string filename = string(path);
     filename = directory + '/' + filename;
+
+    //cout << filename << endl;
 
     unsigned int textureID;
     glGenTextures(1, &textureID);
@@ -240,6 +247,9 @@ unsigned int TextureFromFile(const char* path, const string& directory, bool gam
         stbi_image_free(data);
     }
 
+    //cout << filename << "textureID: " << textureID << endl;
+
     return textureID;
 }
+
 #endif

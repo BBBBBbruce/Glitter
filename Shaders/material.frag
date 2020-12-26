@@ -72,24 +72,24 @@ vec3 CookTorrance(vec3 materialDiffuseColor,
 void main()
 {
     // ambient
-   /* vec3 ambient = light.ambient * material.ambient;
+   /* vec3 ambient = light.ambient * ambient;
   	
     // diffuse 
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * (diff * material.diffuse);
+    vec3 diffuse = light.diffuse * (diff * diffuse);
     
     // specular
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * material.specular);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+    vec3 specular = light.specular * (spec * specular);  
         
     vec3 result = ambient + diffuse + specular;*/
 	vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(light.position - FragPos);
 	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 ct = CookTorrance(material.diffuse, material.specular,norm,lightDir,viewDir,light.diffuse);
+	vec3 ct = CookTorrance(diffuse, specular,norm,lightDir,viewDir,light.diffuse);
     FragColor = vec4(ct, 1.0);
 } 

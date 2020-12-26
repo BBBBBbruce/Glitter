@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include </Y4/what/Glitter/Headers/Shader.hpp>
+#include <../Headers/Shader.hpp>
 
 #include <string>
 #include <vector>
@@ -70,14 +70,16 @@ public:
                 number = std::to_string(specularNr++); // transfer unsigned int to stream
             else if (name == "texture_normal")
                 number = std::to_string(normalNr++); // transfer unsigned int to stream
-            else if (name == "texture_height")
+            else if (name == "texture_roughness")
                 number = std::to_string(heightNr++); // transfer unsigned int to stream
 
             // now set the sampler to the correct texture unit
+            
             glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
             // and finally bind the texture
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
+
 
         // draw mesh
         glBindVertexArray(VAO);
